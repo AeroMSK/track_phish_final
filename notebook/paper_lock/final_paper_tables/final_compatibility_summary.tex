@@ -1,0 +1,19 @@
+% auto-generated at paper lock (revision 11) - do not edit by hand
+\begin{table}[htbp]
+\centering
+\footnotesize
+\caption{Final dataset-compatibility gate (pre-registered, executed run)}
+\begin{tabular}{lll}
+\toprule
+blocker & status & measured \\
+\midrule
+B1 ERS calibration target is partly circular & RESOLVED & cross-family rho \{'gram|F48': 0.3563, 'gram|F68RV3': 0.3605, 'phresh|F48': 0.2907, 'phresh|F68RV3': 0.0691\}, 3/4 runs > 0.1 \\
+B2 DTS collapses to confidence & OPEN (negative result) & gram|F48: delta AURC +0.00337 CI [-0.00234, +0.01328]; gram|F68RV3: delta AURC +0.00452 CI [-0.00013, +0.00996]; phresh|F48: delta AURC +0.00696 CI [-0.00137, +0.01290]; phresh|F68RV3: delta AURC +0.00534 CI [-0.0031... \\
+B3 Test B is not universal & RESOLVED (reframed) & 6/12 stratum cells significant; significant cells: [('gram|F68RV3', 'protocol\_shift', False), ('gram|F68RV3', 'path\_structure\_shift', True), ('gram|F68RV3', 'lexicon\_shift', False), ('phresh|F68RV3', 'protocol\_shift'... \\
+B4 Reversed high-C/low-ERS vs high-C/high-ERS error ratio & OPEN (genuine negative, reported) & GENUINE NEGATIVE: the reversal survives conditioning on class on at least one external run, so ERS is anti-correlated with correctness there and high-C/low-ERS must NOT be presented as a risk signal on external data \\
+B5 Weak zero-shot transfer & RESOLVED & GramBeddings -> PhreshPhish: best zero-shot 0.8739 (M7 word-expert fusion + self-training (2 rounds)), M0 0.7712; PhreshPhish -> GramBeddings: best zero-shot 0.8243 (M7 word-expert fusion + self-training (2 rounds)),... \\
+B6 Robustness under identity-preserving perturbation (plan Blocker 6) & OPEN & augmented P3 max 56.9\%, P5/P6/P7 max 14.95\% \\
+B7 Domain-invariance gate incomplete (plan Blocker 7) & PARTIALLY RESOLVED & max Wasserstein 0.3338 (all 15), 0.3338 (the 8 new); duplicates ['D\_has\_port\_binary', 'D\_query\_present', 'D\_has\_query\_binary', 'D\_host\_entropy\_norm\_z'] \\
+\bottomrule
+\end{tabular}
+\end{table}

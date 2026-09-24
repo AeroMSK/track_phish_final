@@ -1,0 +1,112 @@
+<!doctype html><html><head><meta charset='utf-8'><title>Final Gate Table — TRAC-Phish Rev 11</title><style>
+:root{{--bg:#f6f8fa;--card:#ffffff;--ink:#1a2332;--mut:#5b6b7f;--acc:#0f62ad;--neg:#b3261e;--pos:#1b7f4d;--line:#dde4ec}}
+*{{box-sizing:border-box}} body{{margin:0;font:15px/1.62 'Segoe UI',system-ui,-apple-system,Arial,sans-serif;background:var(--bg);color:var(--ink)}}
+.layout{{display:flex;min-height:100vh}} nav{{width:255px;background:#12212f;color:#cfe0f1;padding:22px 0;position:sticky;top:0;height:100vh;overflow:auto}}
+nav h1{{font-size:15.5px;margin:0 20px 14px;color:#fff}} nav a{{display:block;padding:8px 20px;color:#cfe0f1;text-decoration:none;font-size:13.6px;border-left:3px solid transparent}}
+nav a:hover{{background:#1b3042}} nav a.active{{border-left-color:#5aa9f0;color:#fff;background:#1b3042;font-weight:600}}
+main{{flex:1;padding:34px 44px;max-width:1080px}} h2{{font-size:25px;margin:0 0 6px}} h3{{font-size:17px;margin:26px 0 8px}}
+.sub{{color:var(--mut);margin:0 0 24px;font-size:14px}} .card{{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 24px;margin:16px 0;box-shadow:0 1px 3px rgba(16,32,48,.05)}}
+.kpis{{display:flex;gap:14px;flex-wrap:wrap;margin:18px 0}} .kpi{{flex:1 1 168px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}}
+.kpi .v{{font-size:23px;font-weight:700}} .kpi .l{{font-size:12px;color:var(--mut);text-transform:uppercase;letter-spacing:.4px}}
+.tag{{display:inline-block;padding:2px 10px;border-radius:20px;font-size:12px;font-weight:600;margin-right:6px}}
+.t-pos{{background:#e3f3ea;color:var(--pos)}} .t-neg{{background:#fbe9e7;color:var(--neg)}} .t-mix{{background:#fdf3dc;color:#8a6100}}
+table{{border-collapse:collapse;width:100%;font-size:12.8px;background:#fff}} th{{background:#eef2f7;text-align:left;padding:7px 9px;border:1px solid var(--line)}}
+td{{padding:6px 9px;border:1px solid var(--line);vertical-align:top}} tr:nth-child(even) td{{background:#fafcfe}}
+.note{{background:#fff8e6;border:1px solid #eeddab;border-radius:8px;padding:10px 14px;font-size:13px}}
+footer{{margin-top:34px;color:var(--mut);font-size:12.5px}}
+@media(max-width:900px){{.layout{{flex-direction:column}}nav{{width:100%;height:auto;position:static}}}}
+</style></head><body><div class='layout'><nav><h1>TRAC-Phish<br><small style='font-weight:400;font-size:11.5px'>Revision 11 — Paper Lock</small></h1><a href="index.html">Overview</a>
+<a href="datasets.html">Datasets & Foundation</a>
+<a href="representation.html">Representation</a>
+<a href="transfer.html">Transfer & UDA</a>
+<a href="ers.html">Explanation Reliability (ERS)</a>
+<a href="dts.html">Decision Layer (DTS)</a>
+<a href="temporal.html">Temporal Analysis</a>
+<a href="robustness.html">Robustness</a>
+<a href="gates.html" class="active">Final Gates</a>
+<a href="claims.html">Claim Matrix</a>
+<a href="limitations.html">Limitations</a>
+<a href="reproducibility.html">Reproducibility</a></nav><main><h2>Final Gate Table</h2><p class='sub'>FINAL_GATE_TABLE_R11 — the one authoritative gate table</p><div class='card'><table class="dataframe t">
+  <thead>
+    <tr style="text-align: right;">
+      <th>phase</th>
+      <th>criterion</th>
+      <th>result</th>
+      <th>numerical_evidence</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>FOUNDATION</td>
+      <td>leakage-resistant dataset layer: provenance, checksums, label audit, URL-quality audit, exact/canonical dedup, domain-disjoint split, strict + natural external views, compatibility gate</td>
+      <td>PASSED</td>
+      <td>Gram 799,565 / Phresh 666,300 rows after cleaning; strict external n = 126,116 (G-&gt;P) / 118,390 (P-&gt;G); contamination removed from natural view 24.96% / 1.29%; P0 gate 21/21; 238/238 sanity checks</td>
+    </tr>
+    <tr>
+      <td>REPRESENTATION</td>
+      <td>domain-invariant block: max normalised Wasserstein &lt;= 0.15 and block domain-classifier AUC &lt;= 0.60 (pinned Phase-1 gate)</td>
+      <td>PASSED</td>
+      <td>F69-R-v3 = F54-R (54) + 15 domain-invariant = 69 features; max W = 0.1341 (&lt;= 0.15); block domain AUC 0.6757 -&gt; 0.5501 (target &lt;= 0.60); promoted</td>
+    </tr>
+    <tr>
+      <td>TRANSFER (UDA)</td>
+      <td>strict-external ROC-AUC &gt;= 0.80 for at least one zero-shot/UDA model in BOTH directions (pinned Gate 2; changelog: tightened any-&gt;both in rev 7)</td>
+      <td>PASSED</td>
+      <td>M7 (UDA): G-&gt;P 0.8739 [95% boot 0.8721, 0.8758], P-&gt;G 0.8243 [95% boot 0.8221, 0.8266]; M0 zero-shot baseline: G-&gt;P 0.7712, P-&gt;G 0.7430; M6: 0.8297 / 0.8139</td>
+    </tr>
+    <tr>
+      <td>SEMI-SUPERVISED (Gate 3)</td>
+      <td>best semi-supervised multi-source strict-external ACCURACY &gt;= 0.95 in BOTH directions (pinned Gate 3)</td>
+      <td>FAILED (near-threshold in one direction)</td>
+      <td>G-&gt;P best 0.9438 (M2h multi-source hybrid (target-val tuned), n=126,116) vs 0.95; P-&gt;G best 0.9558 (M2s multi-source stacked text (target-val tuned), n=118,390)</td>
+    </tr>
+    <tr>
+      <td>ROBUSTNESS (Gate 4)</td>
+      <td>P3 AND P5/P6/P7 prediction-flip rate &lt;= 15% for at least one repaired variant (pinned Gate 4)</td>
+      <td>FAILED</td>
+      <td>P3 dot-segment max flip: 57.45% baseline -&gt; 56.90% augmented -&gt; 40.25% revision-7 repaired (never &lt;= 15%); P5/P6/P7 max flip: 55.80% baseline -&gt; 14.95% augmented (within 15%)</td>
+    </tr>
+    <tr>
+      <td>ERS TARGET (Gate 5)</td>
+      <td>cross-family rho(E0, y_rel) &gt; 0.10 on &gt;= 3 of 4 runs (pinned Phase-5 gate)</td>
+      <td>PASSED (3/4 runs)</td>
+      <td>rho(E0, y_rel) by run: gram|F48=0.3563, gram|F69-R-v3=0.3605, phresh|F48=0.2907, phresh|F69-R-v3=0.0691</td>
+    </tr>
+    <tr>
+      <td>ERS vs CONFIDENCE (Test A)</td>
+      <td>ERS predicts held-out explanation stability: Spearman(ERS, S_challenge) &gt; 0 with Holm-adjusted p &lt; alpha</td>
+      <td>SUPPORTED across most evaluated configurations</td>
+      <td>test rho: gram|F48=+0.3715, gram|F69-R-v3=+0.4232, phresh|F48=+0.5100, phresh|F69-R-v3=+0.1861; external rho: gram|F48=+0.3212, gram|F69-R-v3=+0.3697, phresh|F48=+0.4489, phresh|F69-R-v3=+0.3052; all Holm-significant; ERS beats confidence on 4/4 external runs</td>
+    </tr>
+    <tr>
+      <td>ERS CORRECTNESS INCREMENT (Test B)</td>
+      <td>ERS carries information beyond confidence about correctness: LRT (Error ~ C vs Error ~ C + ERS + CxERS) Holm-adjusted p &lt; alpha on the in-domain test sample</td>
+      <td>NOT SUPPORTED (pre-registered in-domain model)</td>
+      <td>LRT p_holm: gram|F69-R-v3 LRT=6.815, p_holm=0.363, phresh|F69-R-v3 LRT=0.345, p_holm=1</td>
+    </tr>
+    <tr>
+      <td>DTS (Gate 6)</td>
+      <td>DTS AURC &lt; confidence AURC with the 95% paired-bootstrap CI of the difference entirely below 0 on EVERY external run (all-pairs, never any-pair)</td>
+      <td>NOT SUPPORTED</td>
+      <td>0/12 external DTS cells beat confidence with CI excluding 0; gram|F69-R-v3 conf AURC 0.20714 vs DTS 0.21166; phresh|F69-R-v3 conf 0.25889 vs DTS 0.26423</td>
+    </tr>
+    <tr>
+      <td>TEMPORAL</td>
+      <td>report calibration behaviour under temporal shift (pre-registered supporting analysis; PhreshPhish temporal slices, date never a feature)</td>
+      <td>DEGRADATION OBSERVED (reported)</td>
+      <td>gram|F69-R-v3 strict-external: ECE 0.0716 (2025Q3) -&gt; 0.2497 (2025Q4) while ROC-AUC 0.7630 -&gt; 0.7696; phishing prevalence 14.4% -&gt; 57.0% (confound: prevalence shift)</td>
+    </tr>
+    <tr>
+      <td>CRITERION E (representation repair)</td>
+      <td>external ROC-AUC (F54-R) &gt; external ROC-AUC (F48) with a DeLong 95% CI excluding 0 (pre-registered)</td>
+      <td>NOT SUPPORTED</td>
+      <td>GramBeddings: dAUC -0.00194 [-0.00238, -0.00150], p=0, n=126,116; PhreshPhish: dAUC -0.00467 [-0.00521, -0.00413], p=0, n=118,390</td>
+    </tr>
+    <tr>
+      <td>REPRODUCIBILITY</td>
+      <td>checksums, split integrity, no target-TEST labels in any fit/tune/calibrate/threshold step, 238 sanity checks, manifest</td>
+      <td>PASSED</td>
+      <td>238/238 executed sanity checks passed; dataset SHA-256 verified against the recorded provenance audit; seed 42; manifest revision 11</td>
+    </tr>
+  </tbody>
+</table></div><div class='card'><h3>Interpretation</h3><p><p><b>FOUNDATION</b> — the evaluation substrate is auditable and domain-unseen; supports Contribution 1 <i>(paper role: primary methodological contribution (evaluation foundation))</i></p><p><b>REPRESENTATION</b> — the selected feature block has substantially reduced domain-identifying signal; this does NOT make the corpora identical (full-representation origin AUC stays high) <i>(paper role: supports Contribution 2 (representation-level domain adaptation))</i></p><p><b>TRANSFER (UDA)</b> — UDA (unlabeled target TRAIN + word expert/fusion + self-training, no target VAL/TEST labels) materially improves cross-corpus ranking in both directions <i>(paper role: primary positive result (Contribution 2))</i></p><p><b>SEMI-SUPERVISED (Gate 3)</b> — one direction narrowly misses 95%; this is a semi-supervised target-adaptation benchmark (uses target TRAIN labels + target VAL selection), NOT a zero-shot/UDA claim <i>(paper role: secondary supporting result, reported as near-threshold)</i></p><p><b>ROBUSTNESS (Gate 4)</b> — P5/P6/P7 are repairable; P3 is a persistent raw-representation sensitivity. RFC 3986 canonicalisation neutralises P3 mechanically (~0% flip) but degenerates the ERS reliability target (y_rel constant), so it is NOT enabled globally; P3 is retained as an honest limitation <i>(paper role: honest negative/limitation result)</i></p><p><b>ERS TARGET (Gate 5)</b> — the redesigned non-circular target (0.5*held-out challenge stability + 0.5*calibration-family stability, P1/P2 removed) is learnable on most but not all run configurations; the failing configuration (phresh|F69-R-v3) is reported, not hidden <i>(paper role: methodological result, mixed and reported honestly)</i></p><p><b>ERS vs CONFIDENCE (Test A)</b> — ERS carries information about explanation stability, and is the stronger predictor of held-out explanation stability on the evaluated external runs (confidence is stronger in-domain on 2 of 4 runs) <i>(paper role: primary positive result (Contribution 3))</i></p><p><b>ERS CORRECTNESS INCREMENT (Test B)</b> — ERS did not provide statistically supported incremental information about classification correctness beyond calibrated confidence under the preregistered model; external associations exist but track the reliability/correctness divergence (reversal), not decision value <i>(paper role: central negative result (defines the paper's framing))</i></p><p><b>DTS (Gate 6)</b> — calibrated confidence remained the stronger signal for selective classification risk in the evaluated external settings; the gate was not loosened and the negative result is kept <i>(paper role: central negative result (defines the paper's framing))</i></p><p><b>TEMPORAL</b> — calibration deteriorates substantially under temporal shift while ranking is stable; only two adequately-powered quarters exist, so this is directional evidence <i>(paper role: supporting result (motivates recalibration under deployment shift))</i></p><p><b>CRITERION E (representation repair)</b> — resolved at paper lock from the executed paired DeLong comparison (the Section-48 'unavailable' was a lookup bug): representation repair does NOT improve strict-external transfer; both CIs exclude zero in the negative direction <i>(paper role: negative result, now evaluable and reported)</i></p><p><b>REPRODUCIBILITY</b> — the executed run is fully auditable; paper-lock outputs document which results are reused versus recomputed <i>(paper role: auditability statement)</i></p></p></div><footer>Generated from the executed revision-11 run (paper lock). Negative results are reported as results. Nothing on these pages was hand-entered; every value is read from executed result objects.</footer></main></div></body></html>
