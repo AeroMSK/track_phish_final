@@ -9,7 +9,7 @@
 |---|---|
 | `Task.txt` | Full task specification for the revision-11 paper-lock pass |
 | `WALKTHROUGH.md` | What changed in the latest update (always read this first) |
-| `notebook/trac-phish-revision11_runned.ipynb` | **The canonical notebook** (217 cells; cells 1–109 keep the original full-scale executed outputs; cells 207–217 are the executed FINAL REVISION 11 — PAPER LOCK section) |
+| `notebook/trac-phish-revision11_runned.ipynb` | **The canonical notebook** (217 cells; cells 0–206 keep the original full-scale executed outputs and the surgical paper-lock edits; cells 207–216 are the executed FINAL REVISION 11 — PAPER LOCK section) |
 | `notebook/paper_lock/` | Final paper-lock deliverables (report, tables, figures, HTML pages, manifest) |
 | `Datasets/` | `grambeddings_dataset_main.rar`, `phreshphish_url_only_2026.zip` |
 

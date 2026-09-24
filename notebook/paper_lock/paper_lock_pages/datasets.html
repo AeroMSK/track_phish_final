@@ -118,46 +118,102 @@ footer{{margin-top:34px;color:var(--mut);font-size:12.5px}}
 </table></div><div class='card'><h3>Compatibility gate (pre-registered)</h3><table class="dataframe t">
   <thead>
     <tr style="text-align: right;">
-      <th>blocker</th>
-      <th>status</th>
-      <th>measured</th>
+      <th>criterion</th>
+      <th>passed</th>
+      <th>blocking</th>
+      <th>detail</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>B1 ERS calibration target is partly circular</td>
-      <td>RESOLVED</td>
-      <td>cross-family rho {'gram|F48': 0.3563, 'gram|F68RV3': 0.3605, 'phresh|F48': 0.2907, 'phresh|F68RV3': 0.0691}, 3/4 runs &gt; 0.1</td>
+      <td>C1 valid two-class labels [gram]</td>
+      <td>True</td>
+      <td>True</td>
+      <td>GramBeddings: benign=399,815 phishing=399,750</td>
     </tr>
     <tr>
-      <td>B2 DTS collapses to confidence</td>
-      <td>OPEN (negative result)</td>
-      <td>gram|F48: delta AURC +0.00337 CI [-0.00234, +0.01328]; gram|F68RV3: delta AURC +0.00452 CI [-0.00013, +0.00996]; phresh|F48: delta AURC +0.00696 CI [-0.00137, +0.01290]; phresh|F68RV3: delta AURC +0.00534 CI [-0.0031...</td>
+      <td>C2 URL quality [gram]</td>
+      <td>True</td>
+      <td>True</td>
+      <td>0 unusable URLs survived the audit (must be 0)</td>
     </tr>
     <tr>
-      <td>B3 Test B is not universal</td>
-      <td>RESOLVED (reframed)</td>
-      <td>6/12 stratum cells significant; significant cells: [('gram|F68RV3', 'protocol_shift', False), ('gram|F68RV3', 'path_structure_shift', True), ('gram|F68RV3', 'lexicon_shift', False), ('phresh|F68RV3', 'protocol_shift'...</td>
+      <td>C1 valid two-class labels [phresh]</td>
+      <td>True</td>
+      <td>True</td>
+      <td>PhreshPhish: benign=367,989 phishing=298,311</td>
     </tr>
     <tr>
-      <td>B4 Reversed high-C/low-ERS vs high-C/high-ERS error ratio</td>
-      <td>OPEN (genuine negative, reported)</td>
-      <td>GENUINE NEGATIVE: the reversal survives conditioning on class on at least one external run, so ERS is anti-correlated with correctness there and high-C/low-ERS must NOT be presented as a risk signal on external data</td>
+      <td>C2 URL quality [phresh]</td>
+      <td>True</td>
+      <td>True</td>
+      <td>0 unusable URLs survived the audit (must be 0)</td>
     </tr>
     <tr>
-      <td>B5 Weak zero-shot transfer</td>
-      <td>RESOLVED</td>
-      <td>GramBeddings -&gt; PhreshPhish: best zero-shot 0.8739 (M7 word-expert fusion + self-training (2 rounds)), M0 0.7712; PhreshPhish -&gt; GramBeddings: best zero-shot 0.8243 (M7 word-expert fusion + self-training (2 rounds)),...</td>
+      <td>C2b structural missingness repaired</td>
+      <td>True</td>
+      <td>True</td>
+      <td>0 NaN in mean_path_segment_length (structural absence must encode as 0.0)</td>
     </tr>
     <tr>
-      <td>B6 Robustness under identity-preserving perturbation (plan Blocker 6)</td>
-      <td>OPEN</td>
-      <td>augmented P3 max 56.9%, P5/P6/P7 max 14.95%</td>
+      <td>C3 overlap quantified</td>
+      <td>True</td>
+      <td>True</td>
+      <td>exact_raw_string=90; canonical_scheme_aware=136; canonical_scheme_agnostic=210; regist...</td>
     </tr>
     <tr>
-      <td>B7 Domain-invariance gate incomplete (plan Blocker 7)</td>
-      <td>PARTIALLY RESOLVED</td>
-      <td>max Wasserstein 0.3338 (all 15), 0.3338 (the 8 new); duplicates ['D_has_port_binary', 'D_query_present', 'D_has_query_binary', 'D_host_entropy_norm_z']</td>
+      <td>C4 strict external size [GramBeddings -&gt; PhreshPhish]</td>
+      <td>True</td>
+      <td>True</td>
+      <td>126,116 records, minority class 62,390 (need &gt;= 5,000 / 500)</td>
+    </tr>
+    <tr>
+      <td>C4 strict external size [PhreshPhish -&gt; GramBeddings]</td>
+      <td>True</td>
+      <td>True</td>
+      <td>118,390 records, minority class 58,574 (need &gt;= 5,000 / 500)</td>
+    </tr>
+    <tr>
+      <td>C5 identical feature schema</td>
+      <td>True</td>
+      <td>True</td>
+      <td>164 common columns; F48=48, F54-R=54</td>
+    </tr>
+    <tr>
+      <td>C6 URL-only modelling</td>
+      <td>True</td>
+      <td>True</td>
+      <td>forbidden-derived feature columns: none</td>
+    </tr>
+    <tr>
+      <td>C7 benchmark completed</td>
+      <td>True</td>
+      <td>True</td>
+      <td>36 benchmark rows</td>
+    </tr>
+    <tr>
+      <td>C8 external ranking above chance</td>
+      <td>True</td>
+      <td>True</td>
+      <td>best Gram-&gt;Phresh strict-external ROC-AUC in the benchmark = 0.7970 (need &gt;= 0.6)</td>
+    </tr>
+    <tr>
+      <td>C9 non-degenerate external errors</td>
+      <td>True</td>
+      <td>True</td>
+      <td>best-model external error rate = 0.3155 (ERS/DTS need error variation; allowed band [0...</td>
+    </tr>
+    <tr>
+      <td>C10 no target-dataset fitting</td>
+      <td>True</td>
+      <td>True</td>
+      <td>ledger shows no fitting step on a combined/target dataset (origin diagnostic is marked...</td>
+    </tr>
+    <tr>
+      <td>C11 origin separability not pathological</td>
+      <td>True</td>
+      <td>True</td>
+      <td>origin tier 'high' (AUC 0.9287) with best external ROC-AUC 0.7970</td>
     </tr>
   </tbody>
 </table></div><div class='card'><h3>Dataset-origin diagnostic</h3><table class="dataframe t">
