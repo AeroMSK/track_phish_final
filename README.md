@@ -9,6 +9,7 @@
 |---|---|
 | `Task.txt` | Full task specification for the revision-11 paper-lock pass |
 | `WALKTHROUGH.md` | What changed in the latest update (always read this first) |
+| `KAGGLE_RUN_GUIDE.md` | How to run the notebook on Kaggle (full re-run or paper-lock-only) |
 | `notebook/trac-phish-revision11_runned.ipynb` | **The canonical notebook** (217 cells; cells 0–206 keep the original full-scale executed outputs and the surgical paper-lock edits; cells 207–216 are the executed FINAL REVISION 11 — PAPER LOCK section) |
 | `notebook/paper_lock/` | Final paper-lock deliverables (report, tables, figures, HTML pages, manifest) |
 | `Datasets/` | `grambeddings_dataset_main.rar`, `phreshphish_url_only_2026.zip` |
@@ -36,3 +37,7 @@
 4. To re-execute the paper-lock section only: it is cheap (~seconds) and reads the executed
    outputs embedded in the notebook (no retraining). A full re-run of the research pipeline
    takes ~10 hours and is NOT required for the paper-lock outputs.
+5. To run it on Kaggle (full ~10.7 h re-run, or the ~2 min paper-lock-only mode), follow
+   **`KAGGLE_RUN_GUIDE.md`** — the notebook is Kaggle-native (default roots
+   `/kaggle/input` + `/kaggle/working`, dataset discovery by recursive search, multi-fallback
+   RAR extraction, and per-stage checkpoints against the 12 h session cap).
