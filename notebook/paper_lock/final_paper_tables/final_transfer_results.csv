@@ -1,9 +1,0 @@
-direction,model,type,strict_external_roc_auc,accuracy_at_95_gate,notes
-G->P,M0 source-only (zero-shot),zero-shot,0.7712,,frozen source artifacts only
-G->P,M6 fusion (UDA),UDA,0.8297,,"analogue-selected expert fusion, unlabeled target TRAIN"
-G->P,M7 word expert + self-training (UDA),UDA,0.8739,,"95% bootstrap CI [0.8721, 0.8758]; no target VAL/TEST labels used for fitting"
-G->P,M2h multi-source hybrid (target-val tuned),semi-supervised multi-source,0.986,0.9438,"Gate-3 best; target TRAIN labels + target VAL selection (n=126,116)"
-P->G,M0 source-only (zero-shot),zero-shot,0.743,,frozen source artifacts only
-P->G,M6 fusion (UDA),UDA,0.8139,,"analogue-selected expert fusion, unlabeled target TRAIN"
-P->G,M7 word expert + self-training (UDA),UDA,0.8243,,"95% bootstrap CI [0.8221, 0.8266]; no target VAL/TEST labels used for fitting"
-P->G,M2s multi-source stacked text (target-val tuned),semi-supervised multi-source,0.991,0.9558,"Gate-3 best; target TRAIN labels + target VAL selection (n=118,390)"

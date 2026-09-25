@@ -1,9 +1,0 @@
-run,population,confidence_stratum,ERS_group,n,classification_error,heldout_expl_stability_Schallenge,comparison_error_highC_highERS,comparison_Schallenge_highC_highERS,fisher_OR_low_vs_high,fisher_p
-gram|F48,in-domain test,high (top quartile of C),low-ERS (bottom quartile within stratum),136,0.0147,0.7622,0.0065,0.8375,2.2687,0.3219
-gram|F48,strict external,high (top quartile of C),low-ERS (bottom quartile within stratum),131,0.0305,0.7348,0.5614,0.8091,0.0246,0.0
-gram|F69-R-v3,in-domain test,high (top quartile of C),low-ERS (bottom quartile within stratum),155,0.0258,0.7237,0.0086,0.8173,3.053,0.1124
-gram|F69-R-v3,strict external,high (top quartile of C),low-ERS (bottom quartile within stratum),106,0.0283,0.7278,0.415,0.8093,0.041,0.0
-phresh|F48,in-domain test,high (top quartile of C),low-ERS (bottom quartile within stratum),282,0.0106,0.8423,0.0088,0.9416,1.2065,0.7254
-phresh|F48,strict external,high (top quartile of C),low-ERS (bottom quartile within stratum),107,0.1682,0.8341,0.2683,0.9335,0.5516,0.033
-phresh|F69-R-v3,in-domain test,high (top quartile of C),low-ERS (bottom quartile within stratum),105,0.0095,0.8682,0.005,0.9097,1.9111,0.4614
-phresh|F69-R-v3,strict external,high (top quartile of C),low-ERS (bottom quartile within stratum),32,0.125,0.8644,0.3499,0.9344,0.2654,0.0104

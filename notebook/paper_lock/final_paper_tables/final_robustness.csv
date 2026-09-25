@@ -1,5 +1,0 @@
-family,baseline_max_flip_pct,augmented_max_flip_pct,rev7_repaired_max_flip_pct,criterion_pct
-P3 dot-segment,57.45,56.9,40.25,15.0
-P5 subdomain insertion,21.31,14.95,7.8,15.0
-P6 path padding,17.4,14.4,9.48,15.0
-P7 query padding,55.8,7.5,6.25,15.0

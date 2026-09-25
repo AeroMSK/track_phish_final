@@ -1,7 +1,0 @@
-dataset,raw_records,final_rows,final_phishing,final_benign,unique_registered_domains,train,val,test,label_source
-GramBeddings,800000,799565,399750,399815,397856,559696 (50.0%),119935 (50.0%),119934 (50.0%),"classes.txt: {'1': 'Phish', '2': 'Legitimate'}"
-PhreshPhish,666315,666300,298311,367989,186661,410315 (44.5%),87925 (44.5%),168060 (45.7%),official PhreshPhish 'label' column (phish / benign); no other field is consulted
-external view — GramBeddings -> PhreshPhish,,"strict_domain_unseen: 126,116 (PRIMARY)",62390,63726,,phishing 49.5%,,,contamination removed vs natural: 24.96%
-external view — GramBeddings -> PhreshPhish,,"natural: 168,060 (secondary)",76800,91260,,phishing 45.7%,,,contamination removed vs natural: 24.96%
-external view — PhreshPhish -> GramBeddings,,"strict_domain_unseen: 118,390 (PRIMARY)",59816,58574,,phishing 50.5%,,,contamination removed vs natural: 1.29%
-external view — PhreshPhish -> GramBeddings,,"natural: 119,934 (secondary)",59962,59972,,phishing 50.0%,,,contamination removed vs natural: 1.29%
