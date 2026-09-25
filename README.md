@@ -12,6 +12,8 @@
 | `KAGGLE_RUN_GUIDE.md` | How to run the notebook on Kaggle (full re-run or paper-lock-only) |
 | `notebook/trac-phish-revision11_runned.ipynb` | **The canonical notebook** (217 cells; cells 0–206 keep the original full-scale executed outputs and the surgical paper-lock edits; cells 207–216 are the executed FINAL REVISION 11 — PAPER LOCK section) |
 | `notebook/paper_lock/` | Final paper-lock deliverables (report, tables, figures, HTML pages, manifest) |
+| `notebook/trac-phish-revision11_reduced_executed.ipynb` | Machine-executed reduced-scale run of the full pipeline (217/217 cells, 0 errors; see `notebook/reduced_scale_execution_README.md`) |
+| `notebook/reduced_scale_execution_results.zip` | Artifacts of that executed run (tables/figures/reports/models; see its README) |
 | `Datasets/` | `grambeddings_dataset_main.rar`, `phreshphish_url_only_2026.zip` |
 
 ## Headline results (all read from the executed full-scale run)
