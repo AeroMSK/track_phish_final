@@ -149,3 +149,68 @@ track_phish_final/
 └── notebook/
     └── trac-phish-revision11_runned.ipynb  (217 cells, 5 fixes applied)
 ```
+
+---
+
+## Update 3 — Full paper-lock execution completed (2026-09-26)
+
+### What was done
+
+1. **Cleaned disk** — removed old intermediate files, freed 9.0GB.
+2. **Pulled fresh repo** from GitHub with datasets + canonical notebook.
+3. **Extracted datasets** from repo:
+   - GramBeddings: 640K train + 160K test CSV rows
+   - PhreshPhish: 498K train + 168K test parquet rows
+4. **Executed the paper-lock section** (Cells 207–216) in parse mode against the existing Kaggle-executed outputs (Cells 0–206).
+
+### Additional fixes applied during execution
+
+The parse-mode execution revealed 3 more issues that were not caught by the 10-audit pass (which focused on live mode):
+
+6. **Fix 6 — Marker casing** (Cell 208): 7 markers used UPPERCASE "REVISION" but actual cell sources use lowercase "revision". Fixed all to use variable-assignment strings that exist in CODE cells (not markdown):
+   - `"PHASES B + C (REVISION 8)"` → `"R8_BEFORE_AFTER = pd.DataFrame"`
+   - `"PHASE 4b (REVISION 7)"` → `"R7_DTS_TABLE = pd.DataFrame"`
+   - `"Phase 5.4 / 5.5"` → `"ERS_LEGACY_TABLE = pd.DataFrame"`
+   - `"PHASE 3 (REVISION 7)"` → `"R7_FLIP_TABLE = pd.concat"`
+   - `"PHASE A (REVISION 8)"` → `"P1_GATE_V8 = {"`
+   - `"PHASE E (REVISION 10)"` → `"P2_GATE = {"`
+   - `"PHASE G (REVISION 11)"` → `"PHASE 3 GATE OVERALL"`
+   - `"PHASE 6 (revision 6)"` → `"R6_DTS_TABLE = pd.DataFrame"`
+   - `"PHASE 10 (revision 6)"` → `"R6_GATE_TABLE = pd.DataFrame"`
+
+7. **Fix 7 — _pl_cells() exclusion** (Cell 208): the function only excluded the cell containing `PAPER_LOCK_ID`, but Cells 209–216 also reference markers and haven't been executed yet. Fixed to exclude ALL cells from the paper-lock section onward.
+
+8. **Fix 8 — pretty_fset() availability** (Cell 208): `pretty_fset()` was defined in Cell 57 but not available in the paper-lock kernel (parse mode runs only Cells 207–216). Added a local `pretty_fset()` definition to Cell 208.
+
+### Execution results
+
+- **0 errors** across all 10 paper-lock cells (208–216)
+- **20/20 paper-lock sanity checks passed**
+- **238/238 executed sanity checks verified** (from Cell 194)
+- **49 artifacts produced** (4.5 MB total):
+  - 11 CSV + 11 LaTeX table files
+  - 5 figures (PNG + PDF, 300 DPI)
+  - 12 HTML pages (separated-pages report)
+  - Final report (Markdown)
+  - Final abstract (Markdown)
+  - Final manifest (JSON)
+  - 2 zip bundles (paper tables + full paper-lock bundle)
+
+### Verified preserved scientific results
+
+- ✅ UDA AUCs: **0.8739** (Gram→Phresh M7) and **0.8243** (Phresh→Gram M7)
+- ✅ Criterion E = **NOT SUPPORTED**
+- ✅ DTS **0/12** external cells
+- ✅ P3 dot-segment limitation retained
+- ✅ Temporal ECE degradation (0.0716 → 0.2497)
+- ✅ 238/238 executed + 20/20 paper-lock sanity checks
+- ✅ GramBeddings + PhreshPhish primary setup (no LegitPhish/PhishTank)
+- ✅ F69-R-v3 / F68RV3 (69 features)
+- ✅ Evidence-aligned claim matrix (C1–C10, all verdicts match evidence)
+- ✅ Neutral paper-lock title
+
+### Files
+
+- `notebook/trac-phish-revision11_runned.ipynb` — fully executed notebook (217 cells, all outputs)
+- `trac_phish_paper_lock/` — all 49 paper-lock artifacts
+- `trac_phish_revision11_results.zip` — comprehensive results bundle (6.6 MB)
