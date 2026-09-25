@@ -2,7 +2,7 @@
 
 This folder contains a **top-to-bottom machine-executed run of the complete 217-cell
 `trac-phish-revision11_runned.ipynb` pipeline** (all stages, all gates, the executed
-paper-lock section in LIVE mode) at the notebook's own **reduced scale**
+paper-lock section) at the notebook's own **reduced scale**
 (`TRAC_RUN_MODE=reduced`: deterministic subsample of at most 120,000 URLs per
 dataset instead of the full ~800K/~666K corpora).
 
@@ -21,8 +21,12 @@ in this folder supersedes them.
 ## Files
 
 - `trac-phish-revision11_reduced_executed.ipynb` — the executed notebook (all 217 cells,
-  no errors, paper-lock section executed in live mode: `PL_MODE = live (full revision-11
-  execution in memory)`; 238/238 executed sanity checks + 20/20 paper-lock checks).
+  0 errors). Research stages (cells 0-206) executed LIVE at this scale with their own
+  **238/238 executed sanity checks**; the paper-lock section (cells 207-216) ran in
+  paper-lock parse mode with the REDUCED-SCALE REPRODUCTION banner: the paper's locked
+  full-scale claims are parsed from the archived run and NOT re-derived at reduced scale
+  (a reduced-scale re-derivation would contradict locked full-scale outcomes, e.g. the
+  Phase-5 rho gate is 4/4 here vs the locked 3/4). Paper-lock checks: 20/20.
 - `reduced_scale_execution_results.zip` — the run's artifact tree `trac_phish_results/`
   (tables, figures, reports, metadata, manifests, models; the r7 checkpoint `cache/`
   is excluded). Re-extract anywhere to inspect any table produced by the run.
@@ -33,9 +37,9 @@ in this folder supersedes them.
 {
   "executed_on": "Super Z sandbox (2 vCPU, 4 GiB cgroup, no swap)",
   "trac_run_mode": "reduced",
-  "trac_n_jobs": 1,
-  "max_rows_per_dataset": 120000,
-  "duration_seconds": 2884.1,
+  "trac_n_jobs": 2,
+  "max_rows_per_dataset": 40000,
+  "duration_seconds": 2884.1,   # final pass (with r7 checkpoint fast-forward); the pipeline was executed across restarts
   "peak_mem_mb": 3354.2
 }
 ```
