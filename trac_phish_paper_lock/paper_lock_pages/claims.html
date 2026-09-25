@@ -1,0 +1,122 @@
+<!doctype html><html><head><meta charset='utf-8'><title>Claim Matrix — TRAC-Phish Rev 11</title><style>
+:root{{--bg:#f6f8fa;--card:#ffffff;--ink:#1a2332;--mut:#5b6b7f;--acc:#0f62ad;--neg:#b3261e;--pos:#1b7f4d;--line:#dde4ec}}
+*{{box-sizing:border-box}} body{{margin:0;font:15px/1.62 'Segoe UI',system-ui,-apple-system,Arial,sans-serif;background:var(--bg);color:var(--ink)}}
+.layout{{display:flex;min-height:100vh}} nav{{width:255px;background:#12212f;color:#cfe0f1;padding:22px 0;position:sticky;top:0;height:100vh;overflow:auto}}
+nav h1{{font-size:15.5px;margin:0 20px 14px;color:#fff}} nav a{{display:block;padding:8px 20px;color:#cfe0f1;text-decoration:none;font-size:13.6px;border-left:3px solid transparent}}
+nav a:hover{{background:#1b3042}} nav a.active{{border-left-color:#5aa9f0;color:#fff;background:#1b3042;font-weight:600}}
+main{{flex:1;padding:34px 44px;max-width:1080px}} h2{{font-size:25px;margin:0 0 6px}} h3{{font-size:17px;margin:26px 0 8px}}
+.sub{{color:var(--mut);margin:0 0 24px;font-size:14px}} .card{{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 24px;margin:16px 0;box-shadow:0 1px 3px rgba(16,32,48,.05)}}
+.kpis{{display:flex;gap:14px;flex-wrap:wrap;margin:18px 0}} .kpi{{flex:1 1 168px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}}
+.kpi .v{{font-size:23px;font-weight:700}} .kpi .l{{font-size:12px;color:var(--mut);text-transform:uppercase;letter-spacing:.4px}}
+.tag{{display:inline-block;padding:2px 10px;border-radius:20px;font-size:12px;font-weight:600;margin-right:6px}}
+.t-pos{{background:#e3f3ea;color:var(--pos)}} .t-neg{{background:#fbe9e7;color:var(--neg)}} .t-mix{{background:#fdf3dc;color:#8a6100}}
+table{{border-collapse:collapse;width:100%;font-size:12.8px;background:#fff}} th{{background:#eef2f7;text-align:left;padding:7px 9px;border:1px solid var(--line)}}
+td{{padding:6px 9px;border:1px solid var(--line);vertical-align:top}} tr:nth-child(even) td{{background:#fafcfe}}
+.note{{background:#fff8e6;border:1px solid #eeddab;border-radius:8px;padding:10px 14px;font-size:13px}}
+footer{{margin-top:34px;color:var(--mut);font-size:12.5px}}
+@media(max-width:900px){{.layout{{flex-direction:column}}nav{{width:100%;height:auto;position:static}}}}
+</style></head><body><div class='layout'><nav><h1>TRAC-Phish<br><small style='font-weight:400;font-size:11.5px'>Revision 11 — Paper Lock</small></h1><a href="index.html">Overview</a>
+<a href="datasets.html">Datasets & Foundation</a>
+<a href="representation.html">Representation</a>
+<a href="transfer.html">Transfer & UDA</a>
+<a href="ers.html">Explanation Reliability (ERS)</a>
+<a href="dts.html">Decision Layer (DTS)</a>
+<a href="temporal.html">Temporal Analysis</a>
+<a href="robustness.html">Robustness</a>
+<a href="gates.html">Final Gates</a>
+<a href="claims.html" class="active">Claim Matrix</a>
+<a href="limitations.html">Limitations</a>
+<a href="reproducibility.html">Reproducibility</a></nav><main><h2>Claim Matrix</h2><p class='sub'>the authoritative source for paper drafting</p><div class='card'><table class="dataframe t">
+  <thead>
+    <tr style="text-align: right;">
+      <th>claim_id</th>
+      <th>claim</th>
+      <th>evidence</th>
+      <th>status</th>
+      <th>allowed_paper_wording</th>
+      <th>prohibited_overclaim</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>C1</td>
+      <td>Dataset-origin shift is substantial: the two corpora are strongly separable from URL structure alone, so cross-corpus evaluation represents genuine distribution shift (not label leakage).</td>
+      <td>origin ROC-AUC 0.9200 (F48) / 0.9291 (F69-R-v3), n=40,000 per corpus TRAIN; top discriminator R_is_https</td>
+      <td>SUPPORTED</td>
+      <td>the corpora are highly distinguishable from URL structure alone, which bounds any source-trained detector and motivates the domain-unseen protocol</td>
+      <td>dataset-origin separability implies label leakage; or that removing top features would 'fix' the shift</td>
+    </tr>
+    <tr>
+      <td>C2</td>
+      <td>A label-free domain-invariant representation can reduce source-identifying signal.</td>
+      <td>selected 15-feature block: max normalised Wasserstein 0.1341 (&lt;= 0.15); block domain-classifier AUC 0.6757 -&gt; 0.5501 (target &lt;= 0.60)</td>
+      <td>SUPPORTED</td>
+      <td>the selected feature block has substantially reduced domain-identifying signal</td>
+      <td>the representation is fully domain invariant; the datasets are interchangeable after projection</td>
+    </tr>
+    <tr>
+      <td>C3</td>
+      <td>UDA improves cross-corpus discrimination.</td>
+      <td>M7 vs M0 strict-external ROC-AUC: G-&gt;P 0.7712 -&gt; 0.8739; P-&gt;G 0.7430 -&gt; 0.8243; M7 uses unlabeled target TRAIN only (word expert + fusion + 2 self-training rounds, source-VAL guard)</td>
+      <td>SUPPORTED</td>
+      <td>unsupervised domain adaptation materially improves bidirectional cross-corpus ranking</td>
+      <td>M7 is zero-shot; UDA solves cross-corpus transfer; target labels were used</td>
+    </tr>
+    <tr>
+      <td>C4</td>
+      <td>ERS predicts held-out explanation stability.</td>
+      <td>Test A significant on all four run configurations (in-domain and external, Holm-adjusted); pre-fit ERS-target gate rho(E0, y_rel) &gt; 0.10 on 3/4 runs (phresh|F69-R-v3 = 0.0691 below the 0.10 bar)</td>
+      <td>SUPPORTED across most evaluated runs (target-construction gate 3/4)</td>
+      <td>ERS is associated with held-out explanation stability across most evaluated configurations</td>
+      <td>ERS universally predicts explanation stability on every run configuration</td>
+    </tr>
+    <tr>
+      <td>C5</td>
+      <td>ERS adds correctness information beyond confidence.</td>
+      <td>pre-registered in-domain LRT (Error ~ C vs Error ~ C + ERS + CxERS): p_holm = 0.363 (gram|F69-R-v3), 1.0 (phresh|F69-R-v3); external associations are significant but reflect the reliability/correctness divergence, and do not translate into decision value</td>
+      <td>NOT SUPPORTED</td>
+      <td>ERS did not provide statistically supported incremental information about classification correctness beyond calibrated confidence under the preregistered model</td>
+      <td>ERS improves classification; ERS is a better uncertainty estimate; the in-domain negative result should be hidden behind the external association</td>
+    </tr>
+    <tr>
+      <td>C6</td>
+      <td>DTS improves selective classification risk over confidence.</td>
+      <td>0/12 external DTS variant-run cells beat confidence with the 95% paired-bootstrap CI excluding 0; gram|F69-R-v3 AURC 0.20714 (confidence) vs 0.21166 (DTS); phresh|F69-R-v3 0.25889 vs 0.26423</td>
+      <td>NOT SUPPORTED</td>
+      <td>calibrated confidence remained the stronger signal for selective classification risk in the evaluated external settings</td>
+      <td>DTS improves decision-making; a localized/stratum win generalises to a global claim</td>
+    </tr>
+    <tr>
+      <td>C7</td>
+      <td>Explanation reliability and prediction correctness can diverge (high-confidence/low-ERS does not reliably imply high classification risk).</td>
+      <td>external error rates in the high-confidence stratum are LOWER for low-ERS than for high-ERS on all 4 external runs (e.g. gram|F48: 0.0305 vs 0.5614; Fisher OR 0.025), the reversal survives conditioning on class, while low-ERS still means less stable explanations (mean S_challenge 0.73-0.86 vs 0.81-0.93)</td>
+      <td>SUPPORTED / OBSERVED REVERSAL (negative finding)</td>
+      <td>explanation reliability and prediction correctness are distinct properties that can diverge; a stable explanation can accompany an incorrect prediction</td>
+      <td>high-confidence/low-ERS always indicates a dangerous prediction; low-ERS implies safe predictions</td>
+    </tr>
+    <tr>
+      <td>C8</td>
+      <td>Calibration degrades under temporal shift.</td>
+      <td>gram|F69-R-v3 strict-external ECE 0.0716 (2025Q3) -&gt; 0.2497 (2025Q4) with ROC-AUC flat (0.7630 -&gt; 0.7696); phishing prevalence 14.4% -&gt; 57.0% (co-occurring prevalence shift; two adequately-powered quarters)</td>
+      <td>SUPPORTED (with prevalence confound noted)</td>
+      <td>calibration deteriorates substantially under temporal shift while ranking is comparatively stable</td>
+      <td>the degradation is purely temporal; it generalises beyond two quarters or beyond the gram-&gt;phresh direction</td>
+    </tr>
+    <tr>
+      <td>C9</td>
+      <td>All robustness transformations are stable.</td>
+      <td>P3 dot-segment max flip 57.45% baseline -&gt; 56.90% augmented -&gt; 40.25% revision-7 repaired (criterion 15%); P5/P6/P7 max flip 14.95% after augmentation (within criterion); RFC 3986 canonicalisation neutralises P3 (~0% flip) but degenerates the ERS target, so it is not enabled</td>
+      <td>NOT SUPPORTED (P3 remains a representation-level sensitivity)</td>
+      <td>robustness is incomplete: P5/P6/P7 are within the criterion after repair; P3 remains a known limitation of the raw URL representation</td>
+      <td>the robustness problem has been solved; canonicalisation should be globally enabled without cost</td>
+    </tr>
+    <tr>
+      <td>C10</td>
+      <td>F54-R representation repair conclusively improves strict-external transfer over F48.</td>
+      <td>resolved at paper lock from the executed paired DeLong comparison: G-&gt;P dAUC -0.00194 [-0.00238, -0.00150]; P-&gt;G dAUC -0.00467 [-0.00521, -0.00413] (both CIs exclude 0, negative)</td>
+      <td>NOT SUPPORTED (was reported 'unavailable' due to a lookup bug; now computed from cached results)</td>
+      <td>representation repair did not improve strict-external transfer; the effect is small and positive in-domain but significantly negative externally</td>
+      <td>F54-R improves external transfer; the 'unavailable' verdict should be kept despite recoverable evidence</td>
+    </tr>
+  </tbody>
+</table></div><footer>Generated from the executed revision-11 run (paper lock). Negative results are reported as results. Nothing on these pages was hand-entered; every value is read from executed result objects.</footer></main></div></body></html>
