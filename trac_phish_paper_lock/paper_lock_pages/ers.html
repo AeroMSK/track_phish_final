@@ -1,0 +1,386 @@
+<!doctype html><html><head><meta charset='utf-8'><title>Explanation Reliability (ERS) — TRAC-Phish Rev 11</title><style>
+:root{{--bg:#f6f8fa;--card:#ffffff;--ink:#1a2332;--mut:#5b6b7f;--acc:#0f62ad;--neg:#b3261e;--pos:#1b7f4d;--line:#dde4ec}}
+*{{box-sizing:border-box}} body{{margin:0;font:15px/1.62 'Segoe UI',system-ui,-apple-system,Arial,sans-serif;background:var(--bg);color:var(--ink)}}
+.layout{{display:flex;min-height:100vh}} nav{{width:255px;background:#12212f;color:#cfe0f1;padding:22px 0;position:sticky;top:0;height:100vh;overflow:auto}}
+nav h1{{font-size:15.5px;margin:0 20px 14px;color:#fff}} nav a{{display:block;padding:8px 20px;color:#cfe0f1;text-decoration:none;font-size:13.6px;border-left:3px solid transparent}}
+nav a:hover{{background:#1b3042}} nav a.active{{border-left-color:#5aa9f0;color:#fff;background:#1b3042;font-weight:600}}
+main{{flex:1;padding:34px 44px;max-width:1080px}} h2{{font-size:25px;margin:0 0 6px}} h3{{font-size:17px;margin:26px 0 8px}}
+.sub{{color:var(--mut);margin:0 0 24px;font-size:14px}} .card{{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 24px;margin:16px 0;box-shadow:0 1px 3px rgba(16,32,48,.05)}}
+.kpis{{display:flex;gap:14px;flex-wrap:wrap;margin:18px 0}} .kpi{{flex:1 1 168px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}}
+.kpi .v{{font-size:23px;font-weight:700}} .kpi .l{{font-size:12px;color:var(--mut);text-transform:uppercase;letter-spacing:.4px}}
+.tag{{display:inline-block;padding:2px 10px;border-radius:20px;font-size:12px;font-weight:600;margin-right:6px}}
+.t-pos{{background:#e3f3ea;color:var(--pos)}} .t-neg{{background:#fbe9e7;color:var(--neg)}} .t-mix{{background:#fdf3dc;color:#8a6100}}
+table{{border-collapse:collapse;width:100%;font-size:12.8px;background:#fff}} th{{background:#eef2f7;text-align:left;padding:7px 9px;border:1px solid var(--line)}}
+td{{padding:6px 9px;border:1px solid var(--line);vertical-align:top}} tr:nth-child(even) td{{background:#fafcfe}}
+.note{{background:#fff8e6;border:1px solid #eeddab;border-radius:8px;padding:10px 14px;font-size:13px}}
+footer{{margin-top:34px;color:var(--mut);font-size:12.5px}}
+@media(max-width:900px){{.layout{{flex-direction:column}}nav{{width:100%;height:auto;position:static}}}}
+</style></head><body><div class='layout'><nav><h1>TRAC-Phish<br><small style='font-weight:400;font-size:11.5px'>Revision 11 — Paper Lock</small></h1><a href="index.html">Overview</a>
+<a href="datasets.html">Datasets & Foundation</a>
+<a href="representation.html">Representation</a>
+<a href="transfer.html">Transfer & UDA</a>
+<a href="ers.html" class="active">Explanation Reliability (ERS)</a>
+<a href="dts.html">Decision Layer (DTS)</a>
+<a href="temporal.html">Temporal Analysis</a>
+<a href="robustness.html">Robustness</a>
+<a href="gates.html">Final Gates</a>
+<a href="claims.html">Claim Matrix</a>
+<a href="limitations.html">Limitations</a>
+<a href="reproducibility.html">Reproducibility</a></nav><main><h2>Explanation Reliability (ERS)</h2><p class='sub'>E0 = (F·S·M)^(1/3), confidence excluded by design</p><div class='card'><h3>ERS evaluation (all run configurations × populations)</h3><table class="dataframe t">
+  <thead>
+    <tr style="text-align: right;">
+      <th>run</th>
+      <th>population</th>
+      <th>n</th>
+      <th>error_rate</th>
+      <th>A_spearman_ERS_vs_Schallenge</th>
+      <th>A_spearman_C_vs_Schallenge</th>
+      <th>B_lrt_stat</th>
+      <th>B_ers_coef</th>
+      <th>err_highC_lowERS</th>
+      <th>err_highC_highERS</th>
+      <th>mean_Schallenge_highC_lowERS</th>
+      <th>mean_Schallenge_highC_highERS</th>
+      <th>fisher_or_error_lowERS_vs_highERS</th>
+      <th>fisher_p</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>gram|F48</td>
+      <td>test</td>
+      <td>2500</td>
+      <td>0.1084</td>
+      <td>0.3715</td>
+      <td>0.4057</td>
+      <td>4.0550</td>
+      <td>-0.2151</td>
+      <td>0.0147</td>
+      <td>0.0065</td>
+      <td>0.7622</td>
+      <td>0.8375</td>
+      <td>2.2687</td>
+      <td>0.3219</td>
+    </tr>
+    <tr>
+      <td>gram|F48</td>
+      <td>ext</td>
+      <td>2500</td>
+      <td>0.3316</td>
+      <td>0.3212</td>
+      <td>0.1280</td>
+      <td>417.2013</td>
+      <td>2.0358</td>
+      <td>0.0305</td>
+      <td>0.5614</td>
+      <td>0.7348</td>
+      <td>0.8091</td>
+      <td>0.0246</td>
+      <td>0.0000</td>
+    </tr>
+    <tr>
+      <td>gram|F69-R-v3</td>
+      <td>test</td>
+      <td>2500</td>
+      <td>0.1008</td>
+      <td>0.4232</td>
+      <td>0.4748</td>
+      <td>6.8152</td>
+      <td>-0.8346</td>
+      <td>0.0258</td>
+      <td>0.0086</td>
+      <td>0.7237</td>
+      <td>0.8173</td>
+      <td>3.0530</td>
+      <td>0.1124</td>
+    </tr>
+    <tr>
+      <td>gram|F69-R-v3</td>
+      <td>ext</td>
+      <td>2500</td>
+      <td>0.3128</td>
+      <td>0.3697</td>
+      <td>0.2322</td>
+      <td>218.6283</td>
+      <td>1.5315</td>
+      <td>0.0283</td>
+      <td>0.4150</td>
+      <td>0.7278</td>
+      <td>0.8093</td>
+      <td>0.0410</td>
+      <td>0.0000</td>
+    </tr>
+    <tr>
+      <td>phresh|F48</td>
+      <td>test</td>
+      <td>2500</td>
+      <td>0.0840</td>
+      <td>0.5100</td>
+      <td>0.2663</td>
+      <td>0.0000</td>
+      <td>-0.0130</td>
+      <td>0.0106</td>
+      <td>0.0088</td>
+      <td>0.8423</td>
+      <td>0.9416</td>
+      <td>1.2065</td>
+      <td>0.7254</td>
+    </tr>
+    <tr>
+      <td>phresh|F48</td>
+      <td>ext</td>
+      <td>2500</td>
+      <td>0.3112</td>
+      <td>0.4489</td>
+      <td>0.2055</td>
+      <td>2.7835</td>
+      <td>-0.0807</td>
+      <td>0.1682</td>
+      <td>0.2683</td>
+      <td>0.8341</td>
+      <td>0.9335</td>
+      <td>0.5516</td>
+      <td>0.0330</td>
+    </tr>
+    <tr>
+      <td>phresh|F69-R-v3</td>
+      <td>test</td>
+      <td>2500</td>
+      <td>0.0696</td>
+      <td>0.1861</td>
+      <td>0.1961</td>
+      <td>0.3450</td>
+      <td>-0.4111</td>
+      <td>0.0095</td>
+      <td>0.0050</td>
+      <td>0.8682</td>
+      <td>0.9097</td>
+      <td>1.9111</td>
+      <td>0.4614</td>
+    </tr>
+    <tr>
+      <td>phresh|F69-R-v3</td>
+      <td>ext</td>
+      <td>2500</td>
+      <td>0.3036</td>
+      <td>0.3052</td>
+      <td>0.2237</td>
+      <td>52.2038</td>
+      <td>3.1632</td>
+      <td>0.1250</td>
+      <td>0.3499</td>
+      <td>0.8644</td>
+      <td>0.9344</td>
+      <td>0.2654</td>
+      <td>0.0104</td>
+    </tr>
+  </tbody>
+</table></div><div class='card'><h3>Held-out challenge evaluation</h3><table class="dataframe t">
+  <thead>
+    <tr style="text-align: right;">
+      <th>run</th>
+      <th>population</th>
+      <th>n</th>
+      <th>S_challenge_mean</th>
+      <th>spearman_ERS</th>
+      <th>spearman_C</th>
+      <th>spearman_E0</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>gram|F48</td>
+      <td>test</td>
+      <td>2500</td>
+      <td>0.7871</td>
+      <td>0.3715</td>
+      <td>0.4057</td>
+      <td>0.3726</td>
+    </tr>
+    <tr>
+      <td>gram|F48</td>
+      <td>ext</td>
+      <td>2496</td>
+      <td>0.7826</td>
+      <td>0.3212</td>
+      <td>0.1280</td>
+      <td>0.3234</td>
+    </tr>
+    <tr>
+      <td>gram|F68RV3</td>
+      <td>test</td>
+      <td>2500</td>
+      <td>0.7551</td>
+      <td>0.4232</td>
+      <td>0.4748</td>
+      <td>0.4212</td>
+    </tr>
+    <tr>
+      <td>gram|F68RV3</td>
+      <td>ext</td>
+      <td>2496</td>
+      <td>0.7623</td>
+      <td>0.3697</td>
+      <td>0.2322</td>
+      <td>0.3722</td>
+    </tr>
+    <tr>
+      <td>phresh|F48</td>
+      <td>test</td>
+      <td>2492</td>
+      <td>0.8857</td>
+      <td>0.5100</td>
+      <td>0.2663</td>
+      <td>0.5136</td>
+    </tr>
+    <tr>
+      <td>phresh|F48</td>
+      <td>ext</td>
+      <td>2500</td>
+      <td>0.8823</td>
+      <td>0.4489</td>
+      <td>0.2055</td>
+      <td>0.4549</td>
+    </tr>
+    <tr>
+      <td>phresh|F68RV3</td>
+      <td>test</td>
+      <td>2492</td>
+      <td>0.8959</td>
+      <td>0.1861</td>
+      <td>0.1961</td>
+      <td>0.1683</td>
+    </tr>
+    <tr>
+      <td>phresh|F68RV3</td>
+      <td>ext</td>
+      <td>2500</td>
+      <td>0.8949</td>
+      <td>0.3052</td>
+      <td>0.2237</td>
+      <td>0.3122</td>
+    </tr>
+  </tbody>
+</table></div><div class='card'><h3>High-C / low-ERS reversal — negative finding</h3><table class="dataframe t">
+  <thead>
+    <tr style="text-align: right;">
+      <th>run</th>
+      <th>population</th>
+      <th>confidence_stratum</th>
+      <th>ERS_group</th>
+      <th>n</th>
+      <th>classification_error</th>
+      <th>heldout_expl_stability_Schallenge</th>
+      <th>comparison_error_highC_highERS</th>
+      <th>comparison_Schallenge_highC_highERS</th>
+      <th>fisher_OR_low_vs_high</th>
+      <th>fisher_p</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>gram|F48</td>
+      <td>in-domain test</td>
+      <td>high (top quartile of C)</td>
+      <td>low-ERS (bottom quartile within stratum)</td>
+      <td>136</td>
+      <td>0.0147</td>
+      <td>0.7622</td>
+      <td>0.0065</td>
+      <td>0.8375</td>
+      <td>2.2687</td>
+      <td>0.3219</td>
+    </tr>
+    <tr>
+      <td>gram|F48</td>
+      <td>strict external</td>
+      <td>high (top quartile of C)</td>
+      <td>low-ERS (bottom quartile within stratum)</td>
+      <td>131</td>
+      <td>0.0305</td>
+      <td>0.7348</td>
+      <td>0.5614</td>
+      <td>0.8091</td>
+      <td>0.0246</td>
+      <td>0.0000</td>
+    </tr>
+    <tr>
+      <td>gram|F69-R-v3</td>
+      <td>in-domain test</td>
+      <td>high (top quartile of C)</td>
+      <td>low-ERS (bottom quartile within stratum)</td>
+      <td>155</td>
+      <td>0.0258</td>
+      <td>0.7237</td>
+      <td>0.0086</td>
+      <td>0.8173</td>
+      <td>3.0530</td>
+      <td>0.1124</td>
+    </tr>
+    <tr>
+      <td>gram|F69-R-v3</td>
+      <td>strict external</td>
+      <td>high (top quartile of C)</td>
+      <td>low-ERS (bottom quartile within stratum)</td>
+      <td>106</td>
+      <td>0.0283</td>
+      <td>0.7278</td>
+      <td>0.4150</td>
+      <td>0.8093</td>
+      <td>0.0410</td>
+      <td>0.0000</td>
+    </tr>
+    <tr>
+      <td>phresh|F48</td>
+      <td>in-domain test</td>
+      <td>high (top quartile of C)</td>
+      <td>low-ERS (bottom quartile within stratum)</td>
+      <td>282</td>
+      <td>0.0106</td>
+      <td>0.8423</td>
+      <td>0.0088</td>
+      <td>0.9416</td>
+      <td>1.2065</td>
+      <td>0.7254</td>
+    </tr>
+    <tr>
+      <td>phresh|F48</td>
+      <td>strict external</td>
+      <td>high (top quartile of C)</td>
+      <td>low-ERS (bottom quartile within stratum)</td>
+      <td>107</td>
+      <td>0.1682</td>
+      <td>0.8341</td>
+      <td>0.2683</td>
+      <td>0.9335</td>
+      <td>0.5516</td>
+      <td>0.0330</td>
+    </tr>
+    <tr>
+      <td>phresh|F69-R-v3</td>
+      <td>in-domain test</td>
+      <td>high (top quartile of C)</td>
+      <td>low-ERS (bottom quartile within stratum)</td>
+      <td>105</td>
+      <td>0.0095</td>
+      <td>0.8682</td>
+      <td>0.0050</td>
+      <td>0.9097</td>
+      <td>1.9111</td>
+      <td>0.4614</td>
+    </tr>
+    <tr>
+      <td>phresh|F69-R-v3</td>
+      <td>strict external</td>
+      <td>high (top quartile of C)</td>
+      <td>low-ERS (bottom quartile within stratum)</td>
+      <td>32</td>
+      <td>0.1250</td>
+      <td>0.8644</td>
+      <td>0.3499</td>
+      <td>0.9344</td>
+      <td>0.2654</td>
+      <td>0.0104</td>
+    </tr>
+  </tbody>
+</table><p class='note'>NEGATIVE FINDING. On all 4 strict-external runs, the high-confidence/low-ERS group shows LOWER classification error than the high-confidence/high-ERS group (median external Fisher OR = 0.153), while its held-out explanation stability S_challenge remains lower (0.73-0.86 vs 0.81-0.93). In at least one external setting the relationship survives conditioning on class. Therefore: high confidence + low ERS does NOT reliably imply high classification risk. Explanation reliability and prediction correctness are distinct properties; a stable explanation can accompany an incorrect prediction (and vice versa).</p></div><footer>Generated from the executed revision-11 run (paper lock). Negative results are reported as results. Nothing on these pages was hand-entered; every value is read from executed result objects.</footer></main></div></body></html>

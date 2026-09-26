@@ -1,0 +1,96 @@
+{
+  "notebook_revision": 11,
+  "paper_lock": true,
+  "title": "Cross-Corpus Transfer and Explanation Reliability in Phishing URL Detection",
+  "superseded_working_title": "Beyond Prediction Confidence: Reliability-Calibrated Explanations for Phishing URL Detection",
+  "datasets": {
+    "GramBeddings": {
+      "final_rows": 799565,
+      "sha256_prefix": "48b79a07470d999d",
+      "role": "anchor / development corpus"
+    },
+    "PhreshPhish": {
+      "final_rows": 666300,
+      "sha256_prefix": "8bef3edb9a095482",
+      "role": "primary external corpus (URL-only package)"
+    }
+  },
+  "final_primary_representation": {
+    "paper_name": "F69-R-v3",
+    "internal_key": "F68RV3 (preserved for checkpoint compatibility)",
+    "F54R_features": 54,
+    "invariant_block": 15,
+    "total": 69,
+    "definition": "F69-R-v3 = F54-R (54 features) + 15 domain-invariant features = 69 features",
+    "invariant_block_gate": {
+      "max_wasserstein": 0.13409183170125963,
+      "domain_classifier_auc_before": 0.675693354075,
+      "domain_classifier_auc_after": 0.5501116531375
+    }
+  },
+  "external_evaluation": {
+    "primary_view": "strict_domain_unseen",
+    "strict_external_records": {
+      "GramBeddings -> PhreshPhish": 126116,
+      "PhreshPhish -> GramBeddings": 118390
+    },
+    "contamination_removed_from_natural_pct": {
+      "GramBeddings -> PhreshPhish": 24.957753,
+      "PhreshPhish -> GramBeddings": 1.287375
+    }
+  },
+  "executed_run_provenance": {
+    "run_mode": "full scale, ~639 minutes, 238/238 sanity checks passed",
+    "seed": 42,
+    "dataset_protocol": "trac-dataset-v2.0",
+    "canonicalization_version": "trac-canon-v1.0",
+    "split": "GramBeddings domain-disjoint 70/15/15; PhreshPhish official partitions preserved",
+    "calibration": "Stage-A held-out validation (isotonic selected); Stage-B cross-fitted TRAIN+VAL",
+    "thresholds": "source-validation MCC (operating point A) and min-FPR s.t. recall>=0.95 (point B)",
+    "uda": "M7 = word expert + analogue-selected rank fusion + 2 self-training rounds on unlabeled target TRAIN; source-VAL non-inferiority guard (margin 0.02); no target VAL/TEST label used for fitting",
+    "ers": "E0=(F*S*M)^(1/3), confidence excluded by design; target y_rel = 0.5*S_challenge + 0.5*S_calib_P3 (P1/P2 removed); isotonic calibrator fitted on validation only",
+    "dts": "logistic_2f [logit C, logit ERS] fitted on source-validation XAI sample (n=2500), grouped 5-fold CV; no target label used (revision-7 prior variant is transductive over unlabeled external scores - disclosed)",
+    "xai": "TreeSHAP samples n=2500 per population (6 populations), 400 interaction rows, 3 models per run",
+    "perturbations": "P1/P2/P3/P4/P4B identity-preserving; P5-P7 neutral-label structural; P8/P9 adversarial stress"
+  },
+  "paper_lock_ledger": {
+    "reused_from_executed_revision_11_run": [
+      "all dataset/overlap/split artifacts",
+      "all trained models and predictions",
+      "all transfer/UDA results (M0/M5/M6/M7)",
+      "all TreeSHAP/faithfulness/stability/consensus results",
+      "ERS/DTS evaluations and AURC gates",
+      "temporal analysis",
+      "robustness flip tables",
+      "statistical test registry",
+      "238/238 sanity checks"
+    ],
+    "recomputed_cheaply_during_paper_lock": [
+      "Criterion E: read from the executed paired DeLong comparison (Section 39R output); no retraining",
+      "final gate table / claim matrix / criteria table: reassembled from executed result objects",
+      "final figures 1-5: rendered from executed result objects",
+      "final paper tables (CSV+TEX) and this manifest"
+    ],
+    "new_experiments_added": "none (compute constraint respected: no new model families, no hyperparameter searches, no extra CV folds, no larger SHAP samples, no new perturbation families, no extra self-training rounds, no new full-dataset ablations)"
+  },
+  "figures": [
+    "fig1_final_architecture",
+    "fig2_final_transfer",
+    "fig3_final_ers_vs_confidence",
+    "fig4_final_temporal_ece",
+    "fig5_final_robustness"
+  ],
+  "final_tables": [
+    "final_dataset_summary",
+    "final_compatibility_summary",
+    "final_transfer_results",
+    "final_ers_results",
+    "final_dts_results",
+    "final_temporal_calibration",
+    "final_robustness",
+    "final_gate_table",
+    "final_claim_matrix",
+    "final_criteria_table",
+    "final_reversal_diagnostic"
+  ]
+}
